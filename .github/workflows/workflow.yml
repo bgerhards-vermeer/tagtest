@@ -12,16 +12,42 @@ on:
       - '*'
 
 jobs:
-  output-version:
-    name: Doing a Thing
+  updaload-file:
+    name: Uploading a File
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-      - run: 'cat version'
-      - run: 'ls -a'
-  output-again:
-    name: Again
+      - run: 'echo initial > version.txt'
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: publish-package
+          path: '.'
+  pulling-down-file:
+    name: Pulling Down The File and Updating it
     runs-on: ubuntu-latest
     steps:
-      - run: 'ls -a'
+      - name: Download a single artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: publish-package
+          path: publish-package
+      - name: Should say 'initial'
+        run: 'cat publish-package/version.txt'
+      - run: 'echo ${{ github.sha }} > publish-package/version.txt'
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: publish-package
+          path: publish-package
+  does-the-file-update-persist:
+    name: Does it overwrite the existing file
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download a single artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: publish-package
+          path: publish-package
+      - run: 'ls'
+      - name: Should be the SHA
+        run: 'cat publish-package/version.txt'
