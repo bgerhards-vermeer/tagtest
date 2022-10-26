@@ -1,0 +1,21 @@
+name: "Output Version"
+
+on:
+  push: 
+    branches: 
+      - '*'
+  workflow_dispatch:
+    branches:
+      - main
+      - '*'
+    commit:
+      - '*'
+
+jobs:
+  output-version:
+    name: Doing a Thing
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+      - run: 'cat version'
