@@ -23,6 +23,8 @@ jobs:
           name: publish-package
           path: '.'
   pulling-down-file:
+    needs: 
+      - updaload-file
     name: Pulling Down The File and Updating it
     runs-on: ubuntu-latest
     steps:
@@ -40,6 +42,8 @@ jobs:
           name: publish-package
           path: publish-package
   does-the-file-update-persist:
+    needs:
+      - pulling-down-file
     name: Does it overwrite the existing file
     runs-on: ubuntu-latest
     steps:
