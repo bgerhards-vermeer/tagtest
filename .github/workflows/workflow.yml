@@ -19,3 +19,9 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
       - run: 'cat version'
+      - run: 'ls -a'
+  output-again:
+    name: Again
+    runs-on: ubuntu-latest
+    steps:
+      - run: 'ls -a'
