@@ -42,7 +42,7 @@ jobs:
           path: publish-package
       - name: Should say 'initial'
         run: 'cat publish-package/version.txt'
-      - run: 'echo ${{ github.sha:0:7 }} > publish-package/version.txt'
+      - run: 'echo ${ ${{ github.sha: }}0:7 } > publish-package/version.txt'
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
