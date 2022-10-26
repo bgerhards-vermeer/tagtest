@@ -17,6 +17,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: 'echo initial > version.txt'
+      - run: 'echo initial > versasfion.txt'
+      - run: 'echo initial > versasfsafasfon.txt'
+      - run: 'echo initial > versaasfsion.txt'
+      - run: 'echo initial > vsfdsafasfdersion.txt'
+      - run: 'echo initial > verasfdsion.txt'
+      - run: 'echo initial > verasfsfasdfdsion.txt'
+      - run: 'echo initial > vasfersion.txt'
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
