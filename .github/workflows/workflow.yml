@@ -14,7 +14,9 @@ on:
 jobs:
   updaload-file:
     environment: test
-    concurrency: test
+    concurrency:
+      group: ${{ github.ref }}
+      cancel-in-progress: true
     name: Uploading a File
     runs-on: ubuntu-latest
     steps:
@@ -32,7 +34,9 @@ jobs:
           name: publish-package
           path: '.'
   pulling-down-file:
-    concurrency: test
+    concurrency:
+      group: ${{ github.ref }}
+      cancel-in-progress: true
     needs: 
       - updaload-file
     name: Update Version Number
@@ -53,7 +57,9 @@ jobs:
           name: publish-package
           path: publish-package
   does-the-file-update-persist:
-    concurrency: test
+    concurrency:
+      group: ${{ github.ref }}
+      cancel-in-progress: true
     needs:
       - pulling-down-file
     name: Does it overwrite the existing file
