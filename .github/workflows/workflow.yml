@@ -13,6 +13,7 @@ on:
 
 jobs:
   updaload-file:
+    concurrency: test
     name: Uploading a File
     runs-on: ubuntu-latest
     steps:
@@ -30,9 +31,10 @@ jobs:
           name: publish-package
           path: '.'
   pulling-down-file:
+    concurrency: test
     needs: 
       - updaload-file
-    name: Pulling Down The File and Updating it
+    name: Update Version Number
     runs-on: ubuntu-latest
     steps:
       - name: Download a single artifact
@@ -40,9 +42,8 @@ jobs:
         with:
           name: publish-package
           path: publish-package
-      - name: Should say 'initial'
-        run: 'cat publish-package/version.txt'
-      - run: |
+      - name: Update Version Number
+        run: |
           fullsha=${{ github.sha }}
           echo ${fullsha:0:7} > publish-package/version.txt
       - name: Upload artifact
@@ -51,6 +52,7 @@ jobs:
           name: publish-package
           path: publish-package
   does-the-file-update-persist:
+    concurrency: test
     needs:
       - pulling-down-file
     name: Does it overwrite the existing file
