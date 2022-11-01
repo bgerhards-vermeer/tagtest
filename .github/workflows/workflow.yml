@@ -56,7 +56,7 @@ jobs:
     concurrency: test
     needs:
       - pulling-down-file
-    name: Does it overwrite the existing files
+    name: Does it overwrite the existing file
     runs-on: ubuntu-latest
     steps:
       - name: Download a single artifact
