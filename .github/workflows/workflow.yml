@@ -11,9 +11,9 @@ on:
     commit:
       - '*'
 env:
-  some_dev_thing: dev
-  some_prod_thing: prod
-  some_test_thing: test
+  dev: dev
+  prod: prod
+  test: test
 
 jobs:
   updaload-file:
@@ -25,7 +25,7 @@ jobs:
     name: Uploading a File
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{ env[format('some_',matrix.environment,'_thing')] }}
+      - run: echo ${{ env[format(matrix.environment,'_thing')] }}
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
