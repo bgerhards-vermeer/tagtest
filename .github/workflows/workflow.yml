@@ -11,9 +11,9 @@ on:
     commit:
       - '*'
 env:
-  dev: dev
-  prod: prod
-  test: test
+  dev_thing: dev
+  prod_thing: prod
+  test_thing: test
 
 jobs:
   updaload-file:
