@@ -25,7 +25,7 @@ jobs:
     name: Uploading a File
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{ env.some_dev_thing }}
+      - run: echo ${{ env.some_${{matrix.environment}}_thing }}
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
