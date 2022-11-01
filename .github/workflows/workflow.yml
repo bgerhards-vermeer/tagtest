@@ -21,7 +21,7 @@ jobs:
       matrix:
         environment: [dev, prod, test]
     concurrency:
-      group: ${{ github.ref }}
+      group: ${{ github.ref }}-${{ environment}}
     name: Uploading a File
     runs-on: ubuntu-latest
     steps:
