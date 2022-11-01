@@ -62,7 +62,7 @@ jobs:
       cancel-in-progress: true
     needs:
       - pulling-down-file
-    name: Does it overwrite the existing file
+    name: Does it overwrite the existing files
     runs-on: ubuntu-latest
     steps:
       - name: Download a single artifact
