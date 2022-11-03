@@ -11,61 +11,21 @@ on:
     commit:
       - '*'
 env:
-  dev_thing: dev
-  prod_thing: prod
-  test_thing: test
+  version_number: '1'
 
 jobs:
-  updaload-file:
-    strategy:
-      matrix:
-        environment: [dev, prod, test]
-    concurrency:
-      group: ${{ github.ref }}-${{ matrix.environment}}
-    name: Uploading a File
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo ${{ env[format(matrix.environment,'_thing')] }}
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: publish-package
-          path: '.'
-  pulling-down-file:
-    concurrency:
-      group: ${{ github.ref }}
-    needs: 
-      - updaload-file
-    name: Update Version Number
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download a single artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: publish-package
-          path: publish-package
-      - name: Update Version Number
-        run: |
-          fullsha=${{ github.sha }}
-          echo ${fullsha:0:7} > publish-package/version.txt
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: publish-package
-          path: publish-package
   does-the-file-update-persist:
-    concurrency:
-      group: ${{ github.ref }}
-    needs:
-      - pulling-down-file
     name: Does it overwrite the existing files
     runs-on: ubuntu-latest
     steps:
-      - name: Download a single artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: publish-package
-          path: publish-package
-      - run: 'ls publish-package'
-      - name: Should be the SHA
-        run: 'cat publish-package/version.txt'
+      - run: |
+          echo $(date +'%Y%m%d')-${{github.run_number}}-$(git rev-parse --short HEAD) > version.txt
+          VERSION_NUMBER=$(cat version.txt)
+          echo "version_number=$VERSION_NUMBER" >> $GITHUB_ENV
+  does-second-thing:
+    needs:
+      - does-the-file-update-persist
+    name: Does it overwrite the existing files
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{ env.version_number }}
