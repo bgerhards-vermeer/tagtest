@@ -9,9 +9,9 @@ jobs:
   failing-fast:
     strategy:
       fail-fast: true
+      max-parallel: 1
       matrix: 
         version: [10, 9, 8, 13]
-        max-parallel: [1]
     concurrency:
       group: ${{ github.ref }}
     name: Failing Fast
