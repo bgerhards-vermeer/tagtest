@@ -41,10 +41,10 @@ jobs:
           name: publish-package
           path: publish-package
       - name: Download a single artifact
-          uses: actions/download-artifact@v3
-          with:
-            name: ashleys-stash
-            path: ashleys-stash
+        uses: actions/download-artifact@v3
+        with:
+          name: ashleys-stash
+          path: ashleys-stash
       - run: cat ashleys-stash/version.txt
       - run: cat publish-package/version.txt
       - run: 'ls publish-package'
