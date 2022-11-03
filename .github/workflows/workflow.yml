@@ -6,48 +6,14 @@ on:
       - '*'    
 
 jobs:
-  upload-file:
+  failing-fast:
+    strategy:
+      fail-fast: true
+      matrix: 
+        version: [10, 9, 8, 13]
     concurrency:
       group: ${{ github.ref }}
-    name: Uploading a File
+    name: Failing Fast
     runs-on: ubuntu-latest
     steps:
-      - run: echo 123123 > version.txt
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: publish-package
-          path: '.'
-  ashleys-publish-package: 
-    needs: upload-file
-    runs-on: ubuntu-latest
-    steps: 
-      - run: echo randoNum > version.txt
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: ashleys-stash
-          path: '.'
-  does-the-file-update-persist:
-    needs: ashleys-publish-package
-    concurrency:
-      group: ${{ github.ref }}
-    name: Does it overwrite the existing files
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download a single artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: publish-package
-          path: publish-package
-      - name: Download a single artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: ashleys-stash
-          path: ashleys-stash
-      - run: cat ashleys-stash/version.txt
-      - run: cat publish-package/version.txt
-      - run: 'ls publish-package'
-      - name: Should be the SHA
-        run: 'cat publish-package/version.txt'
-        
+      - run: exit 1
