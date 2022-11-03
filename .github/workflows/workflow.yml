@@ -16,4 +16,4 @@ jobs:
       group: ${{ github.ref }}
     uses: ./.github/workflows/another-workflow.yml
     with:
-      a-number: ${{ matrix.version }}
+      version: ${{ matrix.version }}

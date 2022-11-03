@@ -3,7 +3,7 @@ name: Just Another GHA
 on:
   workflow_call:
     inputs:
-      a-number:
+      version:
         required: true
         type: number
     
@@ -13,6 +13,6 @@ jobs:
     steps:
       - run: echo hello
       - name: Failing maybe
-        if: matrix.version == '9'
+        if: inputs.version == '9'
         run: exit 1
       - run: echo hello
