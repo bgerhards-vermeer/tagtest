@@ -18,7 +18,8 @@ jobs:
         with:
           name: publish-package
           path: '.'
-    name: ashleys-publish-package: 
+  ashleys-publish-package: 
+    needs: upload-file
     runs-on: ubuntu-latest
     steps: 
       - run: echo randoNum > version.txt
@@ -28,6 +29,7 @@ jobs:
           name: ashleys-stash
           path: '.'
   does-the-file-update-persist:
+    needs: ashleys-publish-package
     concurrency:
       group: ${{ github.ref }}
     name: Does it overwrite the existing files
