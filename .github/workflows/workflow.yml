@@ -3,7 +3,7 @@ name: "Output Version"
 on:
   push: 
     branches: 
-      - '*'
+      - '*'    
 
 jobs:
   upload-file:
@@ -17,6 +17,15 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: publish-package
+          path: '.'
+    name: ashleys-publish-package: 
+    runs-on: ubuntu-latest
+    steps: 
+      - run: echo randoNum > version.txt
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ashleys-stash
           path: '.'
   does-the-file-update-persist:
     concurrency:
@@ -32,3 +41,10 @@ jobs:
       - run: 'ls publish-package'
       - name: Should be the SHA
         run: 'cat publish-package/version.txt'
+      - name: Download a single artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: ashleys-stash
+          path: ashleys-stash
+      - run: cat ashleys-stash/version.txt
+        
