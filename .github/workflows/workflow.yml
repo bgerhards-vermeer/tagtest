@@ -18,6 +18,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Failing maybe
-        if: matrix.version == '8'
+        if: matrix.version == '9'
         run: exit 1
       - run: echo hello
