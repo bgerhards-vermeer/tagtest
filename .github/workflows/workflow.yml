@@ -10,8 +10,8 @@ on:
       - '*'
     commit:
       - '*'
-env:
-  version_number: '1'
+# env:
+#   version_number: '1'
 
 jobs:
   does-the-file-update-persist:
