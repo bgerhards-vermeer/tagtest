@@ -10,22 +10,70 @@ on:
       - '*'
     commit:
       - '*'
-# env:
-#   version_number: '1'
+strategy:
+  matrix:
+  
+env:
+  some_dev_thing: dev
+  some_prod_thing: prod
+  some_test_thing: test
 
 jobs:
+  updaload-file:
+    environment: test
+    concurrency:
+      group: ${{ github.ref }}
+    name: Uploading a File
+    runs-on: ubuntu-latest
+    steps:
+      - run: 'echo initial > version.txt'
+      - run: 'echo initial > versasfion.txt'
+      - run: 'echo initial > versasfsafasfon.txt'
+      - run: 'echo initial > versaasfsion.txt'
+      - run: 'echo initial > vsfdsafasfdersion.txt'
+      - run: 'echo initial > verasfdsion.txt'
+      - run: 'echo initial > verasfsfasdfdsion.txt'
+      - run: 'echo initial > vasfersion.txt'
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: publish-package
+          path: '.'
+  pulling-down-file:
+    concurrency:
+      group: ${{ github.ref }}
+    needs: 
+      - updaload-file
+    name: Update Version Number
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download a single artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: publish-package
+          path: publish-package
+      - name: Update Version Number
+        run: |
+          fullsha=${{ github.sha }}
+          echo ${fullsha:0:7} > publish-package/version.txt
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: publish-package
+          path: publish-package
   does-the-file-update-persist:
-    name: Does it overwrite the existing files
-    runs-on: ubuntu-latest
-    steps:
-      - run: |
-          echo $(date +'%Y%m%d')-${{github.run_number}}-$(git rev-parse --short HEAD) > version.txt
-          VERSION_NUMBER=$(cat version.txt)
-          echo "version_number=$VERSION_NUMBER" >> $GITHUB_ENV
-  does-second-thing:
+    concurrency:
+      group: ${{ github.ref }}
     needs:
-      - does-the-file-update-persist
+      - pulling-down-file
     name: Does it overwrite the existing files
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{ env.version_number }}
+      - name: Download a single artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: publish-package
+          path: publish-package
+      - run: 'ls publish-package'
+      - name: Should be the SHA
+        run: 'cat publish-package/version.txt'
