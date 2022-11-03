@@ -16,4 +16,7 @@ jobs:
     name: Failing Fast
     runs-on: ubuntu-latest
     steps:
-      - run: exit 1
+      - name: Failing maybe
+        if: matrix.version == '8'
+        run: exit 1
+      - run: echo hello
