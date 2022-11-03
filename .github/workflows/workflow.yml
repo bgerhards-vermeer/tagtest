@@ -14,10 +14,6 @@ jobs:
         version: [10, 9, 8, 13]
     concurrency:
       group: ${{ github.ref }}
-    name: Failing Fast
-    runs-on: ubuntu-latest
-    steps:
-      - name: Failing maybe
-        if: matrix.version == '9'
-        run: exit 1
-      - run: echo hello
+    uses: ./.github/workflows/another-workflow.yml
+    with:
+      a-number: ${{ matrix.version }}
